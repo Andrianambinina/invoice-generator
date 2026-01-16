@@ -1,7 +1,7 @@
 'use client';
 
 import dynamic from 'next/dynamic';
-import InvoiceDocument from './InvoiceDocument';
+import InvoicePdf from './InvoicePdf';
 
 const PDFViewer = dynamic(() => import('@react-pdf/renderer').then((mod) => mod.PDFViewer), {
   ssr: false,
@@ -11,7 +11,7 @@ const PDFViewer = dynamic(() => import('@react-pdf/renderer').then((mod) => mod.
 const Preview = () => {
   return (
     <PDFViewer className="w-full h-full">
-      <InvoiceDocument />
+      <InvoicePdf />
     </PDFViewer>
   );
 };

@@ -111,8 +111,8 @@ const getWorkingDaysInMonth = (year: string, month: string) => {
   const daysInMonth = dayjs().daysInMonth();
   let workingDays = 0;
   for (let day = 1; day <= daysInMonth; day++) {
-    const date = dayjs(`${year}-${month}-${day}`);
-    const dayOfWeek = date.day(); // 0 (Dimanche) à 6 (Samedi)
+    const currentDay = dayjs(`${year}-${month}-${day}`);
+    const dayOfWeek = currentDay.day();
     if (dayOfWeek !== 0 && dayOfWeek !== 6) {
       workingDays++;
     }
@@ -120,7 +120,7 @@ const getWorkingDaysInMonth = (year: string, month: string) => {
   return workingDays;
 };
 
-const InvoiceDocument = () => {
+const InvoicePdf = () => {
   const fullMonthName = dayjs().format('MMMM').charAt(0).toUpperCase() + dayjs().format('MMMM').slice(1);
   const month = dayjs().format('MM');
   const year = dayjs().format('YYYY');
@@ -215,4 +215,4 @@ const InvoiceDocument = () => {
   );
 };
 
-export default InvoiceDocument;
+export default InvoicePdf;
