@@ -107,26 +107,16 @@ const styles = StyleSheet.create({
   },
 });
 
-const getWorkingDaysInMonth = (year: string, month: string) => {
-  const daysInMonth = dayjs().daysInMonth();
-  let workingDays = 0;
-  for (let day = 1; day <= daysInMonth; day++) {
-    const currentDay = dayjs(`${year}-${month}-${day}`);
-    const dayOfWeek = currentDay.day();
-    if (dayOfWeek !== 0 && dayOfWeek !== 6) {
-      workingDays++;
-    }
-  }
-  return workingDays;
+type Props = {
+  workingDays: number;
 };
 
-const InvoicePdf = () => {
+const InvoicePdf = ({ workingDays }: Props) => {
   const fullMonthName = dayjs().format('MMMM').charAt(0).toUpperCase() + dayjs().format('MMMM').slice(1);
   const month = dayjs().format('MM');
   const year = dayjs().format('YYYY');
   const endOfMonth = dayjs().endOf('month').format('DD');
 
-  const workingDays = getWorkingDaysInMonth(year, month);
   const fibrePrice = 70;
   const dailyRate = 65;
   const total = dailyRate * workingDays;
