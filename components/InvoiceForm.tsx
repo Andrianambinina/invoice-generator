@@ -18,6 +18,9 @@ const invoiceSchema = z.object({
   workingDays: z.number().min(1).max(23),
 });
 
+const internet = Number(process.env.NEXT_PUBLIC_INTERNET) || 70;
+const dailyRate = Number(process.env.NEXT_PUBLIC_DAILY_RATE) || 0;
+
 const InvoiceForm = () => {
   const setWorkingDays = useInvoiceStore((state) => state.setWorkingDays);
 
@@ -27,7 +30,7 @@ const InvoiceForm = () => {
   const form = useForm<z.infer<typeof invoiceSchema>>({
     resolver: zodResolver(invoiceSchema),
     defaultValues: {
-      recipient: 'zoandrianambinina@gmail.com',
+      recipient: process.env.NEXT_PUBLIC_CUSTOMER_EMAIL || '',
       workingDays: getWorkingDaysInMonth(year, month),
     },
   });
@@ -124,7 +127,7 @@ const InvoiceForm = () => {
               )}
             />
             <p className="mt-2 text-sm text-gray-500">
-              Taux journalier: <span className="font-medium text-gray-900">65,00 €</span>
+              Taux journalier: <span className="font-medium text-gray-900">{dailyRate}€</span>
             </p>
           </div>
 
@@ -134,9 +137,9 @@ const InvoiceForm = () => {
             </div>
             <div className="flex-1">
               <span className="block text-base font-medium text-gray-900">Forfait Fibre Optique</span>
-              <span className="block text-sm text-gray-500">Ajoute 70€ au total</span>
+              <span className="block text-sm text-gray-500">Ajoute {internet}€ au total</span>
             </div>
-            <span className="text-base font-medium text-gray-900">70€</span>
+            <span className="text-base font-medium text-gray-900">{internet}€</span>
           </div>
         </div>
       </div>

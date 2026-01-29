@@ -107,6 +107,15 @@ const styles = StyleSheet.create({
   },
 });
 
+const fibrePrice = Number(process.env.NEXT_PUBLIC_INTERNET) || 70;
+const dailyRate = Number(process.env.NEXT_PUBLIC_DAILY_RATE) || 10;
+const stat = process.env.NEXT_PUBLIC_STAT || 'XXXXX XX XXXX X XXXXX';
+const nif = process.env.NEXT_PUBLIC_NIF || 'XXXXXXXXX';
+const address1 = process.env.NEXT_PUBLIC_ADDRESS_1 || 'Adresse Ligne 1';
+const address2 = process.env.NEXT_PUBLIC_ADDRESS_2 || 'Adresse Ligne 2';
+const phone = process.env.NEXT_PUBLIC_PHONE || '+XXX XX XX XXX XX';
+const senderEmail = process.env.NEXT_PUBLIC_SENDER_EMAIL || '';
+
 type Props = {
   workingDays: number;
 };
@@ -117,8 +126,6 @@ const InvoicePdf = ({ workingDays }: Props) => {
   const year = dayjs().format('YYYY');
   const endOfMonth = dayjs().endOf('month').format('DD');
 
-  const fibrePrice = 70;
-  const dailyRate = 65;
   const total = dailyRate * workingDays;
   const totalTTC = total + fibrePrice;
 
@@ -153,12 +160,12 @@ const InvoicePdf = ({ workingDays }: Props) => {
             </View>
 
             <View style={styles.section}>
-              <Text style={styles.value}>STAT: 62022 11 2013 0 10444</Text>
-              <Text style={styles.value}>NIF: 5001247889</Text>
-              <Text style={styles.value}>Lot II B 95 M Amboditsiry</Text>
-              <Text style={styles.value}>101 Antananarivo - Madagascar</Text>
-              <Text style={styles.value}>Email: zoandrianambinina@gmail.com</Text>
-              <Text style={styles.value}>Tel: + 261 34 04 322 51</Text>
+              <Text style={styles.value}>STAT: {stat}</Text>
+              <Text style={styles.value}>NIF: {nif}</Text>
+              <Text style={styles.value}>{address1}</Text>
+              <Text style={styles.value}>{address2}</Text>
+              <Text style={styles.value}>Email: {senderEmail}</Text>
+              <Text style={styles.value}>Tel: {phone}</Text>
             </View>
 
             <View style={styles.section}>
