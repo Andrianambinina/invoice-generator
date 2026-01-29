@@ -146,7 +146,9 @@ const InvoiceForm = () => {
       <div className="shrink-0 p-8 border-t border-gray-200 w-full">
         <div className="flex items-center justify-between mb-4">
           <span className="text-sm text-gray-500">Total estimé</span>
-          <span className="text-2xl font-semibold text-gray-900 tracking-tight">1 500,00 €</span>
+          <span className="text-2xl font-semibold text-gray-900 tracking-tight">
+            {(dailyRate * form.getValues('workingDays') + internet).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €
+          </span>
         </div>
         <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white text-base font-medium py-6 rounded-lg shadow-lg shadow-gray-900/10 transition-all transform active:scale-[0.98] flex items-center justify-center gap-2">
           <span>Envoyer la facture</span>

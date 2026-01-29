@@ -107,14 +107,15 @@ const styles = StyleSheet.create({
   },
 });
 
-const fibrePrice = Number(process.env.NEXT_PUBLIC_INTERNET) || 70;
-const dailyRate = Number(process.env.NEXT_PUBLIC_DAILY_RATE) || 10;
+const internet = Number(process.env.NEXT_PUBLIC_INTERNET) || 70;
+const dailyRate = Number(process.env.NEXT_PUBLIC_DAILY_RATE) || 0;
+const fullName = process.env.NEXT_PUBLIC_FULL_NAME || 'John Doe';
 const stat = process.env.NEXT_PUBLIC_STAT || 'XXXXX XX XXXX X XXXXX';
 const nif = process.env.NEXT_PUBLIC_NIF || 'XXXXXXXXX';
 const address1 = process.env.NEXT_PUBLIC_ADDRESS_1 || 'Adresse Ligne 1';
 const address2 = process.env.NEXT_PUBLIC_ADDRESS_2 || 'Adresse Ligne 2';
-const phone = process.env.NEXT_PUBLIC_PHONE || '+XXX XX XX XXX XX';
-const senderEmail = process.env.NEXT_PUBLIC_SENDER_EMAIL || '';
+const phone = process.env.NEXT_PUBLIC_PHONE || '+261 34 00 000 00';
+const senderEmail = process.env.NEXT_PUBLIC_SENDER_EMAIL || 'john.doe@example.com';
 
 type Props = {
   workingDays: number;
@@ -127,7 +128,7 @@ const InvoicePdf = ({ workingDays }: Props) => {
   const endOfMonth = dayjs().endOf('month').format('DD');
 
   const total = dailyRate * workingDays;
-  const totalTTC = total + fibrePrice;
+  const totalTTC = total + internet;
 
   const items = [
     {
@@ -138,9 +139,9 @@ const InvoicePdf = ({ workingDays }: Props) => {
     },
     {
       designation: 'Tarif mensuel fibre optique',
-      unitPriceEUR: fibrePrice,
+      unitPriceEUR: internet,
       quantity: 1,
-      totalEUR: fibrePrice,
+      totalEUR: internet,
     },
   ];
 
@@ -155,7 +156,7 @@ const InvoicePdf = ({ workingDays }: Props) => {
         <View style={styles.grid}>
           <View style={styles.col}>
             <View style={styles.section}>
-              <Text style={[styles.value, { fontWeight: 'bold' }]}>RANAIVO ANDRIANAMBININA Zo Mickaël</Text>
+              <Text style={[styles.value, { fontWeight: 'bold' }]}>{fullName}</Text>
               <Text style={styles.label}>Prestataire informatique</Text>
             </View>
 
