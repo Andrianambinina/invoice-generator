@@ -25,6 +25,7 @@ const InvoiceForm = () => {
   const setWorkingDays = useInvoiceStore((state) => state.setWorkingDays);
 
   const month = dayjs().format('MM');
+  const fullMonthName = dayjs().format('MMMM').charAt(0).toUpperCase() + dayjs().format('MMMM').slice(1);
   const year = dayjs().format('YYYY');
 
   const form = useForm<z.infer<typeof invoiceSchema>>({
@@ -111,7 +112,7 @@ const InvoiceForm = () => {
                     <FieldLabel htmlFor="invoice-form-working-days" className="block text-sm font-medium text-gray-700">
                       Nombre de jour
                     </FieldLabel>
-                    <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">Janvier 2026</span>
+                    <span className="text-xs font-medium text-gray-400 bg-gray-100 px-2 py-0.5 rounded-full">{`${fullMonthName} ${year}`}</span>
                   </div>
                   <Input
                     {...field}
@@ -150,7 +151,7 @@ const InvoiceForm = () => {
             {(dailyRate * form.getValues('workingDays') + internet).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ' ')} €
           </span>
         </div>
-        <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white text-base font-medium py-6 rounded-lg shadow-lg shadow-gray-900/10 transition-all transform active:scale-[0.98] flex items-center justify-center gap-2">
+        <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white text-base font-medium py-6 rounded-lg shadow-lg shadow-gray-900/10 transition-all transform active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer">
           <span>Envoyer la facture</span>
           <ArrowRight className="w-4 h-4" />
         </Button>
