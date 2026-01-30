@@ -3,6 +3,8 @@
 import InvoicePdf from '@/components/InvoicePdf';
 import { DocumentProps, renderToBuffer } from '@react-pdf/renderer';
 import dayjs from 'dayjs';
+import fs from 'fs/promises';
+import path from 'path';
 import { createElement, ReactElement } from 'react';
 import { Resend } from 'resend';
 import { createInvoice, uploadInvoice } from './invoice';
@@ -20,6 +22,9 @@ export async function sendEmail(values: { recipient: string; workingDays: number
     const secureUrl = await uploadInvoice(pdfBuffer, filename);
     await createInvoice(secureUrl, month.toLowerCase());
 
+    const ribPdfPath = path.join(process.cwd(), 'public/assets/rib.pdf');
+    const ribPdfBuffer = await fs.readFile(ribPdfPath);
+
     await resend.emails.send({
       from: 'onboarding@resend.dev',
       to: values.recipient,
@@ -34,6 +39,10 @@ export async function sendEmail(values: { recipient: string; workingDays: number
         {
           filename: `${filename}.pdf`,
           content: pdfBuffer,
+        },
+        {
+          filename: 'Informations_Bancaires_Zo_Andrianambinina.pdf',
+          content: ribPdfBuffer,
         },
       ],
     });
