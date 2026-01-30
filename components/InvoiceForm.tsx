@@ -6,12 +6,13 @@ import { useInvoiceStore } from '@/store/invoiceStore';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import { ArrowRight, Building2, Mail, Wifi } from 'lucide-react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import z from 'zod';
 import { Button } from './ui/button';
 import { Field, FieldLabel } from './ui/field';
 import { Input } from './ui/input';
+import { Spinner } from './ui/spinner';
 
 const invoiceSchema = z.object({
   recipient: z.email('Email invalide'),
@@ -22,6 +23,8 @@ const internet = Number(process.env.NEXT_PUBLIC_INTERNET) || 70;
 const dailyRate = Number(process.env.NEXT_PUBLIC_DAILY_RATE) || 0;
 
 const InvoiceForm = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const setWorkingDays = useInvoiceStore((state) => state.setWorkingDays);
 
   const month = dayjs().format('MM');
@@ -46,11 +49,14 @@ const InvoiceForm = () => {
   }, [watchedWorkingDays, setWorkingDays]);
 
   const onSubmit = async (data: z.infer<typeof invoiceSchema>) => {
-    const values = {
-      recipient: data.recipient,
-      workingDays: Number(data.workingDays),
-    };
-    await sendEmail(values);
+    setLoading(true);
+    try {
+      await sendEmail({ recipient: data.recipient, workingDays: Number(data.workingDays) });
+    } catch (error) {
+      console.error('Error sending email:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -153,7 +159,7 @@ const InvoiceForm = () => {
         </div>
         <Button className="w-full bg-gray-900 hover:bg-gray-800 text-white text-base font-medium py-6 rounded-lg shadow-lg shadow-gray-900/10 transition-all transform active:scale-[0.98] flex items-center justify-center gap-2 cursor-pointer">
           <span>Envoyer la facture</span>
-          <ArrowRight className="w-4 h-4" />
+          {loading ? <Spinner className="w-4 h-4" /> : <ArrowRight className="w-4 h-4" />}
         </Button>
       </div>
     </form>
