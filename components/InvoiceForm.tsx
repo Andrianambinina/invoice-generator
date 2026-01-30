@@ -8,6 +8,7 @@ import dayjs from 'dayjs';
 import { ArrowRight, Building2, Mail, Wifi } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
+import { toast } from 'sonner';
 import z from 'zod';
 import { Button } from './ui/button';
 import { Field, FieldLabel } from './ui/field';
@@ -52,8 +53,10 @@ const InvoiceForm = () => {
     setLoading(true);
     try {
       await sendEmail({ recipient: data.recipient, workingDays: Number(data.workingDays) });
+      toast.success('Email envoyé avec succès !');
     } catch (error) {
       console.error('Error sending email:', error);
+      toast.error("Échec de l'envoi de l'email.");
     } finally {
       setLoading(false);
     }
