@@ -32,7 +32,7 @@ export default function Home() {
           <div className="flex items-center gap-2">
             <button className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-white bg-gray-900 rounded-lg hover:bg-gray-800 transition-all shadow-sm">
               <Download className="w-4 h-4" />
-              <span>PDF</span>
+              <span>CSV</span>
             </button>
           </div>
         </header>
